@@ -1,8 +1,10 @@
+import string
 import random
+# Importing words list and hangman visuals
 from words import words
 from hangman_visual import hangman_visual
-import string
 
+# Makes sure the selected word from the list has only alphabetical charachters
 def get_valid_word(words):
     word = random.choice(words)
     while '-' in word or ' ' in word:
@@ -11,18 +13,21 @@ def get_valid_word(words):
 
 def hangman():
     lives = 7
+
     word = get_valid_word(words)
     word_letters = set(word)
     alphabet = set(string.ascii_uppercase)
     used_letters = set()
+
     while len(word_letters) > 0 and lives > 0 :
         print("You have used these letters: ", " ".join(used_letters))
+        
+        word_list = [letter if letter in used_letters else "-" for letter in word] 
+        print("Current word: ", " ".join(word_list)) # Prints the word with blanks on the letters not guessed yet
 
-        word_list = [letter if letter in used_letters else "-" for letter in word]
-        print("Current word: ", " ".join(word_list))
         print(hangman_visual[lives])
         print(f"You have {lives} lives left")
-        user_letter = input("Guess a letter: ").upper()
+        user_letter = input("Guess a letter: ").upper() # Letter from the user
         
         if user_letter in alphabet - used_letters:
             used_letters.add(user_letter)
